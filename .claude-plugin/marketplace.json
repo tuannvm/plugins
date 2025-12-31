@@ -1,10 +1,14 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins",
   "description": "Plugin marketplace for AI-powered development workflows.",
-  "owner": "tuannvm",
+  "owner": {
+    "name": "tuannvm"
+  },
   "plugins": [
     {
-      "name": "pagent"
+      "name": "pagent",
+      "source": "./plugins/pagent"
     }
   ]
 }
