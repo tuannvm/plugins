@@ -1,20 +1,16 @@
 #!/bin/bash
-# Pagent Pipeline Orchestrator Stop Hook
+# Pagent Ralph Loop Orchestrator
 #
-# This hook runs when Claude tries to exit. It orchestrates multi-stage
-# pipelines by checking if the current stage is complete, and if so,
-# advancing to the next stage by injecting a new prompt.
+# A single Ralph-style loop that orchestrates all pipeline stages.
+# Each stage loops until its exit condition is met, then advances.
+# Only when ALL stages complete does it output DONE.
 #
-# Based on the Ralph Wiggum technique, but adapted for multi-stage pipelines
-# where each stage has a different prompt (not same-prompt iteration).
+# This mimics human-like software development: iterate until done.
 
 set -euo pipefail
 
-# Trap to clean up temporary files on exit
-trap 'rm -f "${PIPELINE_STATE}.tmp" 2>/dev/null' EXIT
-
 # ============================================================
-# Helper Functions (must be defined before main logic)
+# Helper Functions
 # ============================================================
 
 check_exit_condition() {
@@ -69,57 +65,20 @@ check_exit_condition() {
             return 1
             ;;
 
-        all_files_exist)
-            local FILES
-            FILES=$(echo "$CONDITION" | jq -r '.all_files_exist[]')
-            local ALL_EXIST=true
-            # Use while-read for proper handling of filenames with spaces
-            while IFS= read -r FILE; do
-                [[ -n "$FILE" ]] || continue
-                if [[ ! -f "$WORK_DIR/$FILE" ]]; then
-                    ALL_EXIST=false
-                    break
-                fi
-            done <<< "$FILES"
-            [[ "$ALL_EXIST" == "true" ]]
-            return $?
-            ;;
-
-        custom)
-            local SCRIPT
-            SCRIPT=$(echo "$CONDITION" | jq -r '.custom')
-            local SCRIPT_PATH="$WORK_DIR/$SCRIPT"
-
-            # Security: validate script path is within workspace
-            case "$SCRIPT_PATH" in
-                "$WORK_DIR"/*) ;;  # OK - within workspace
-                *) echo "⚠️  Pagent: Script path outside workspace, blocked" >&2; return 1 ;;
-            esac
-
-            if [[ -f "$SCRIPT_PATH" ]]; then
-                bash "$SCRIPT_PATH" "$WORK_DIR"
-                return $?
-            fi
-            return 1
-            ;;
-
         *)
-            # Unknown condition type - allow exit (fail open)
-            echo "⚠️  Pagent: Unknown exit condition type: $TYPE" >&2
             return 0
             ;;
     esac
 }
 
-list_outputs() {
+get_stage_progress() {
     local WORK_DIR="$1"
-    # List key output files that might exist
     local outputs=()
-    [[ -f "$WORK_DIR/architecture.md" ]] && outputs+=("architecture.md")
-    [[ -f "$WORK_DIR/test-plan.md" ]] && outputs+=("test-plan.md")
-    [[ -f "$WORK_DIR/security-assessment.md" ]] && outputs+=("security-assessment.md")
-    [[ -d "$WORK_DIR/src" ]] && outputs+=("src/")
-    [[ -f "$WORK_DIR/verification-report.md" ]] && outputs+=("verification-report.md")
+    [[ -f "$WORK_DIR/architecture.md" ]] && outputs+="architecture.md ✓"
+    [[ -f "$WORK_DIR/test-plan.md" ]] && outputs+="test-plan.md ✓"
+    [[ -f "$WORK_DIR/security-assessment.md" ]] && outputs+="security-assessment.md ✓"
+    [[ -d "$WORK_DIR/src" ]] && outputs+="src/ ✓"
+    [[ -f "$WORK_DIR/verification-report.md" ]] && outputs+="verification-report.md ✓"
 
     if [[ ${#outputs[@]} -eq 0 ]]; then
         echo "(no outputs yet)"
@@ -133,47 +92,40 @@ list_outputs() {
 # Main Logic
 # ============================================================
 
-# Read hook input from stdin (advanced stop hook API)
+# Read hook input
 HOOK_INPUT=$(cat)
 
-# Get working directory - use CLAUDE_PROJECT_DIR if set, else PWD
-# Don't derive from transcript path (unreliable)
+# Get paths
 WORK_DIR="${CLAUDE_PROJECT_DIR:-${PWD}}"
-
-# Get transcript path for promise checking
 TRANSCRIPT_PATH=$(echo "$HOOK_INPUT" | jq -r '.transcript_path // empty')
-
-# Pipeline state file in the working directory
 PIPELINE_STATE="${WORK_DIR}/.claude/pagent-pipeline.json"
 
-# Check if pagent pipeline is active
+# Check if pipeline exists
 if [[ ! -f "$PIPELINE_STATE" ]]; then
-    # No active pipeline - allow exit
+    # No pipeline - allow exit
     exit 0
 fi
 
-# Validate JSON is well-formed
+# Validate JSON
 if ! jq empty "$PIPELINE_STATE" 2>/dev/null; then
-    echo "⚠️  Pagent: Corrupted pipeline state file" >&2
-    echo "   Run /pagent-run to reinitialize" >&2
+    echo "⚠️  Pagent: Corrupted state. Run /pagent-run to reinitialize." >&2
     exit 1
 fi
 
-# Read current state
+# Read pipeline state
 STAGE=$(jq -r '.stage // empty' "$PIPELINE_STATE")
 STAGES=$(jq '.stages // []' "$PIPELINE_STATE")
 MAX_STAGES=$(jq -r '.max_stages // 0' "$PIPELINE_STATE")
+PRD_PATH=$(jq -r '.prd_path // ""' "$PIPELINE_STATE")
 
-# Validate stage exists
 if [[ -z "$STAGE" ]]; then
-    echo "⚠️  Pagent: No stage found in pipeline state" >&2
     exit 0
 fi
 
-# Check if max stages limit reached
+# Check max stages
 if [[ "$MAX_STAGES" -gt 0 ]]; then
-    CURRENT_INDEX_CHECK=$(echo "$STAGES" | jq -r "to_entries | map(select(.value.name == \"$STAGE\"))[0].key // -1" "$PIPELINE_STATE")
-    if [[ "$CURRENT_INDEX_CHECK" -ge "$MAX_STAGES" ]]; then
+    CURRENT_INDEX=$(echo "$STAGES" | jq -r "to_entries | map(select(.value.name == \"$STAGE\"))[0].key // -1")
+    if [[ "$CURRENT_INDEX" -ge "$MAX_STAGES" ]]; then
         echo "🛑 Pagent: Max stages ($MAX_STAGES) reached." >&2
         jq ".stage = \"stopped_at_max\"" "$PIPELINE_STATE" > "${PIPELINE_STATE}.tmp"
         mv "${PIPELINE_STATE}.tmp" "$PIPELINE_STATE"
@@ -185,7 +137,6 @@ fi
 STAGE_INDEX=$(echo "$STAGES" | jq -r "to_entries | map(select(.value.name == \"$STAGE\"))[0].key // empty")
 
 if [[ -z "$STAGE_INDEX" ]] || [[ "$STAGE_INDEX" == "null" ]]; then
-    echo "⚠️  Pagent: Stage '$STAGE' not found in pipeline definition" >&2
     exit 0
 fi
 
@@ -193,50 +144,72 @@ fi
 STAGE_CONFIG=$(echo "$STAGES" | jq ".[$STAGE_INDEX]")
 STAGE_NAME=$(echo "$STAGE_CONFIG" | jq -r '.name')
 EXIT_CONDITION=$(echo "$STAGE_CONFIG" | jq -r '.exit_when // {}')
+PROMPT_FILE=$(echo "$STAGE_CONFIG" | jq -r '.prompt_file // empty')
 
-# Check exit condition
+# Increment iteration count for this stage
+ITERATIONS=$(jq ".iterations[\"$STAGE_NAME\"] // 0" "$PIPELINE_STATE")
+ITERATIONS=$((ITERATIONS + 1))
+jq ".iterations[\"$STAGE_NAME\"] = $ITERATIONS" "$PIPELINE_STATE" > "${PIPELINE_STATE}.tmp"
+mv "${PIPELINE_STATE}.tmp" "$PIPELINE_STATE"
+
+# Check if stage is complete
 if check_exit_condition "$EXIT_CONDITION" "$WORK_DIR" "$TRANSCRIPT_PATH"; then
-    # Stage complete - advance to next stage
+    # Stage complete - try to advance
     NEXT_INDEX=$((STAGE_INDEX + 1))
     NEXT_STAGE=$(echo "$STAGES" | jq -r ".[$NEXT_INDEX] // empty")
 
     if [[ "$NEXT_STAGE" == "null" ]] || [[ -z "$NEXT_STAGE" ]]; then
-        # Pipeline complete!
-        NEXT_STAGE_NAME=$(echo "$STAGE_CONFIG" | jq -r '.name')
+        # All stages complete!
         jq ".stage = \"complete\" | .completed_at = \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"" "$PIPELINE_STATE" > "${PIPELINE_STATE}.tmp"
         mv "${PIPELINE_STATE}.tmp" "$PIPELINE_STATE"
 
-        echo "✅ Pagent: Pipeline complete!" >&2
-        echo "   All $(echo "$STAGES" | jq 'length') stages finished successfully." >&2
+        echo "" >&2
+        echo "✅ Pagent: All stages complete!" >&2
+        echo "   $(echo "$STAGES" | jq 'length') stages finished successfully." >&2
+        echo "" >&2
+
+        # Output final completion promise
+        jq -n '{"decision": "block", "reason": "Pipeline complete! All 5 stages finished successfully."}'
         exit 0
     fi
 
     # Advance to next stage
     NEXT_STAGE_NAME=$(echo "$NEXT_STAGE" | jq -r '.name')
-    NEXT_PROMPT=$(echo "$NEXT_STAGE" | jq -r '.prompt // empty')
+    NEXT_PROMPT_FILE=$(echo "$NEXT_STAGE" | jq -r '.prompt_file // empty')
+    NEXT_PROMPT=$(sed "s|PRD_PATH|$PRD_PATH|g" "$WORK_DIR/$NEXT_PROMPT_FILE" 2>/dev/null || echo "Prompt not found")
 
-    echo "🔄 Pagent: Stage '$STAGE_NAME' complete, advancing to '$NEXT_STAGE_NAME'" >&2
+    echo "🔄 Pagent: '$STAGE_NAME' → '$NEXT_STAGE_NAME' (after $ITERATIONS iteration(s))" >&2
 
-    # Update state atomically
+    # Update state
     jq ".stage = \"$NEXT_STAGE_NAME\"" "$PIPELINE_STATE" > "${PIPELINE_STATE}.tmp"
     mv "${PIPELINE_STATE}.tmp" "$PIPELINE_STATE"
 
-    # Build system message
+    # Inject next stage prompt
     SYSTEM_MSG="🔄 Pagent Stage: $NEXT_STAGE_NAME
-Previous stage '$STAGE_NAME' completed successfully.
-Working with outputs from: $(list_outputs "$WORK_DIR")"
+Previous stage '$STAGE_NAME' completed after $ITERATIONS iteration(s).
+Working with: $(get_stage_progress "$WORK_DIR")"
 
-    # Inject next prompt by blocking exit
     jq -n \
         --arg prompt "$NEXT_PROMPT" \
         --arg msg "$SYSTEM_MSG" \
-        '{
-            "decision": "block",
-            "reason": $prompt,
-            "systemMessage": $msg
-        }'
+        '{"decision": "block", "reason": $prompt, "systemMessage": $msg}'
     exit 0
 fi
 
-# Stage not complete - let agent continue working
+# Stage NOT complete - loop on same stage
+# Read the current prompt again
+CURRENT_PROMPT=$(sed "s|PRD_PATH|$PRD_PATH|g" "$WORK_DIR/$PROMPT_FILE" 2>/dev/null || echo "Prompt not found")
+
+# Build retry message with iteration context
+SYSTEM_MSG="🔄 Pagent Stage: $STAGE_NAME (iteration $ITERATIONS)
+Stage not complete yet. Continue working.
+Progress: $(get_stage_progress "$WORK_DIR")
+Tip: Focus on completing the exit condition: $(echo "$EXIT_CONDITION" | jq -c '.')"
+
+# Block exit and inject the same prompt (Ralph-style loop)
+jq -n \
+    --arg prompt "$CURRENT_PROMPT" \
+    --arg msg "$SYSTEM_MSG" \
+    '{"decision": "block", "reason": $prompt, "systemMessage": $msg}'
+
 exit 0

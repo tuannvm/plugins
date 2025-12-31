@@ -13,26 +13,25 @@ Execute the setup script to initialize the pagent pipeline:
 "${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.sh" $ARGUMENTS
 ```
 
-After the setup script completes, read its output which will include:
-1. The pipeline stage being started
-2. The initial prompt for the first stage (architect)
+The script will:
+1. Validate the PRD file
+2. Create `.claude/pagent-pipeline.json` with pipeline state
+3. Output the initial architect prompt
 
-**Execute the initial prompt** to begin the pipeline. The Stop hook will automatically handle all subsequent stage transitions.
+The stop hook automatically handles all subsequent stage transitions.
 
 ## Pipeline Stages
 
-The pipeline will progress through these stages autonomously:
+The pipeline progresses through 5 stages sequentially:
 
-1. **architect** → Creates `architecture.md` (technical specs, API design, data models)
-2. **qa** → Creates `test-plan.md` (test strategy, test cases, acceptance criteria)
-3. **security** → Creates `security-assessment.md` (threat model, security requirements)
-4. **implementer** → Creates `src/` (complete working codebase)
-5. **verifier** → Creates `verification-report.md` and tests, outputs `<promise>DONE</promise>`
+1. **architect** → Creates `architecture.md` (technical specs)
+2. **qa** → Creates `test-plan.md` (test strategy)
+3. **security** → Creates `security-assessment.md` (security review)
+4. **implementer** → Creates `src/` (complete codebase)
+5. **verifier** → Creates `verification-report.md` and outputs `<promise>DONE</promise>`
 
 ## Notes
 
-- The pipeline runs in the current working directory
-- All outputs are created alongside the PRD file
-- The user can walk away - the pipeline completes autonomously
-- Use `/pagent-status` to check progress anytime
+- Files are created in the same directory as the PRD
+- Use `/pagent-status` to check progress
 - Use `/pagent-cancel` to stop the pipeline

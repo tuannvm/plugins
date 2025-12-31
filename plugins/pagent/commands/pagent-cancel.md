@@ -6,7 +6,7 @@ hide-from-slash-command-tool: "true"
 
 # Pagent Cancel
 
-Check if a pipeline is active and cancel it:
+Cancel the active pipeline:
 
 ```!
 if [[ ! -f .claude/pagent-pipeline.json ]]; then
@@ -15,49 +15,39 @@ else
   echo "FOUND=true"
   STAGE=$(jq -r '.stage' .claude/pagent-pipeline.json)
   echo "STAGE=$STAGE"
-
-  # List outputs that exist
-  OUTPUTS=()
-  [[ -f architecture.md ]] && OUTPUTS+=("architecture.md")
-  [[ -f test-plan.md ]] && OUTPUTS+=("test-plan.md")
-  [[ -f security-assessment.md ]] && OUTPUTS+=("security-assessment.md")
-  [[ -d src ]] && OUTPUTS+=("src/")
-  [[ -f verification-report.md ]] && OUTPUTS+=("verification-report.md")
-
-  if [[ ${#OUTPUTS[@]} -gt 0 ]]; then
-    local IFS=", "
-    echo "OUTPUTS=${OUTPUTS[*]}"
-  fi
 fi
 ```
 
 ## Handle the Result
 
 **If FOUND=false:**
-- Say "No active pagent pipeline found."
-- Nothing to cancel.
+```
+No active pagent pipeline to cancel.
+```
 
 **If FOUND=true:**
-1. Use Bash to remove the pipeline state file:
+1. Remove the pipeline state:
    ```
    rm .claude/pagent-pipeline.json
+   rm -rf .claude/prompts
    ```
 
 2. Report cancellation:
    ```
-   ⚠️  Cancelling pagent pipeline...
-   Current stage: {STAGE}
-   The current stage will finish its work, then the pipeline will stop.
+   ⚠️  Cancelling pagent pipeline at stage: {STAGE}
+
+   The pipeline will stop. Outputs created so far are preserved.
    ```
 
-3. If OUTPUTS were listed, show what will be preserved:
+3. Show what was created:
    ```
-   Outputs created so far will be preserved:
-   - {each output file}
+   Preserved outputs:
+   - architecture.md (or not created yet)
+   - test-plan.md (or not created yet)
+   - ...
    ```
 
-4. Explain resume capability:
+4. Offer restart:
    ```
-   To resume later, run: /pagent-run {PRD file}
-   The pipeline will skip completed stages.
+   To resume, run: /pagent-run <prd-file>
    ```

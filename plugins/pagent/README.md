@@ -1,81 +1,92 @@
 # Pagent
 
-Transform Product Requirement Documents (PRDs) into working software through 5 specialized AI agents.
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/pagent-run <prd-file>` | Start pipeline with a PRD file |
-| `/pagent-status` | Show current stage and progress |
-| `/pagent-cancel` | Cancel active pipeline |
-
-## Pipeline Stages
-
-| Stage | Agent | Output | Description |
-|-------|-------|--------|-------------|
-| 1 | architect | `architecture.md` | System design, API contracts, data models |
-| 2 | qa | `test-plan.md` | Test strategy, test cases, acceptance criteria |
-| 2 | security | `security-assessment.md` | Threat model, security recommendations |
-| 3 | implementer | `code/` | Complete, production-ready codebase |
-| 4 | verifier | `verification-report.md` | Tests run, validation results |
+Transform PRDs into working software through AI agents.
 
 ## Quick Start
 
 ```bash
-# Start a pipeline with your PRD
-/pagent-run ./your-prd.md
-
-# Check progress
-/pagent-status
-
-# Cancel if needed
-/pagent-cancel
+/pagent-run your-prd.md
 ```
 
-## PRD Format
+That's it. The Ralph loop orchestrates 5 stages automatically.
 
-Your PRD should include:
+## What You Get
 
-- **Problem statement** - What are we solving?
-- **Requirements** - Functional and non-functional requirements
-- **Constraints** - Technical, business, or timing constraints
-- **Success criteria** - How do we know it's done?
+```
+your-project/
+├── your-prd.md              # Your input
+├── architecture.md          # System design
+├── test-plan.md             # Test strategy
+├── security-assessment.md   # Security review
+├── verification-report.md   # Verification results
+└── src/                     # Production code
+    ├── main.go
+    ├── go.mod
+    └── ...
+```
 
-See [examples/](./examples/) for PRD templates.
+## Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/pagent-run <prd>` | Start pipeline |
+| `/pagent-status` | Show current stage |
+| `/pagent-cancel` | Stop pipeline |
+
+## Try the Example
+
+```bash
+cd examples
+/pagent-run sample-prd.md
+```
+
+You'll get a complete Task Management API in Go.
 
 ## How It Works
 
-Pagent uses a **self-orchestrating pipeline**:
-
-1. `/pagent-run` initializes the pipeline state
-2. After each agent completes, a **stop hook** automatically:
-   - Reads the current state
-   - Determines the next stage
-   - Updates the prompt for the next agent
-3. The pipeline continues until all stages complete
-
-This happens within a single Claude Code session - no external orchestration needed.
-
-## Outputs
+Pagent uses a **Ralph-style loop** that mimics human development:
 
 ```
-outputs/
-├── architecture.md           # System design
-├── test-plan.md              # Test strategy
-├── security-assessment.md    # Security review
-├── code/                     # Generated codebase
-│   ├── src/
-│   ├── tests/
-│   └── README.md
-└── verification-report.md    # Test results
+while (!complete) {
+  current_stage = get_stage()
+  prompt = get_prompt(current_stage)
+
+  // Work on stage
+  execute(prompt)
+
+  // Check if done
+  if (stage_complete()) {
+    next_stage()
+  } else {
+    // Retry same stage (Ralph loop)
+    continue
+  }
+}
 ```
+
+### The 5 Stages
+
+| Stage | Output | Iterates until... |
+|-------|--------|-------------------|
+| Architect | `architecture.md` | File exists with 50+ lines |
+| QA | `test-plan.md` | File exists with 30+ lines |
+| Security | `security-assessment.md` | File exists with 20+ lines |
+| Implementer | `src/` | Directory with 3+ files |
+| Verifier | `verification-report.md` | `<promise>DONE</promise>` output |
+
+Each stage loops until its exit condition is met. Then it advances to the next stage.
+
+## Human-Like Development
+
+Just like a human developer:
+- Iterate on a task until it's done
+- Move to the next task
+- Repeat until everything is complete
+
+No manual intervention needed.
 
 ## Documentation
 
-| Doc | Content |
-|-----|---------|
-| [Tutorial](./docs/tutorial.md) | Step-by-step usage guide |
-| [Architecture](./docs/architecture.md) | Technical design and internals |
-| [Roadmap](./docs/roadmap.md) | Future plans |
-| [Examples](./examples/) | PRD templates |
+- [Tutorial](docs/tutorial.md) - Step-by-step guide
+- [Architecture](docs/architecture.md) - Technical details
+- [Examples](examples/) - PRD templates

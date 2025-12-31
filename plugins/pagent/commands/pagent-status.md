@@ -6,7 +6,7 @@ hide-from-slash-command-tool: "true"
 
 # Pagent Status
 
-Check if a pipeline is active and show its status:
+Check pipeline status:
 
 ```!
 if [[ ! -f .claude/pagent-pipeline.json ]]; then
@@ -15,16 +15,11 @@ else
   echo "ACTIVE=true"
   STAGE=$(jq -r '.stage' .claude/pagent-pipeline.json)
   STARTED=$(jq -r '.started_at' .claude/pagent-pipeline.json)
-  PRD_FILE=$(jq -r '.prd_file // "unknown"' .claude/pagent-pipeline.json)
-
-  # Count total stages
+  PRD=$(jq -r '.prd_file // "unknown"' .claude/pagent-pipeline.json)
   TOTAL=$(jq '.stages | length' .claude/pagent-pipeline.json)
+  CURRENT_INDEX=$(jq -r ".stages | to_entries | map(select(.value.name == \"$STAGE\"))[0].key // 0" .claude/pagent-pipeline.json)
 
-  # Find current stage index
-  CURRENT_INDEX=$(jq -r ".stages | to_entries | map(select(.value.name == \"$STAGE\"))[0].key // -1" .claude/pagent-pipeline.json)
-
-  # Count completed stages (before current)
-  if [[ "$CURRENT_INDEX" == "-1" ]] || [[ "$STAGE" == "complete" ]]; then
+  if [[ "$STAGE" == "complete" ]]; then
     COMPLETED=$TOTAL
   else
     COMPLETED=$CURRENT_INDEX
@@ -32,47 +27,45 @@ else
 
   echo "STAGE=$STAGE"
   echo "STARTED=$STARTED"
-  echo "PRD=$PRD_FILE"
+  echo "PRD=$PRD"
   echo "COMPLETED=$COMPLETED"
   echo "TOTAL=$TOTAL"
+
+  # List outputs
+  [[ -f architecture.md ]] && echo "OUTPUT_architecture=$(wc -l < architecture.md)"
+  [[ -f test-plan.md ]] && echo "OUTPUT_test_plan=$(wc -l < test-plan.md)"
+  [[ -f security-assessment.md ]] && echo "OUTPUT_security=$(wc -l < security-assessment.md)"
+  [[ -d src ]] && echo "OUTPUT_src=$(find src -type f | wc -l) files"
+  [[ -f verification-report.md ]] && echo "OUTPUT_verification=$(wc -l < verification-report.md)"
 fi
 ```
 
 ## Display the Status
 
 **If ACTIVE=false:**
-- Say "No active pagent pipeline found."
-- Suggest running `/pagent-run <prd-file>` to start one.
+```
+No active pagent pipeline.
+
+Start one with: /pagent-run <prd-file>
+```
 
 **If ACTIVE=true:**
-Display formatted status:
-
 ```
 🤖 Pagent Pipeline Status
 
-Current Stage: {STAGE} ({COMPLETED}/{TOTAL} complete)
+Stage: {STAGE} ({COMPLETED}/{TOTAL} complete)
 Started: {STARTED}
 PRD: {PRD}
 
 Outputs:
-- List each output file that exists:
-  - architecture.md (142 lines)
-  - test-plan.md (87 lines)
-  - etc.
-
+- architecture.md ({OUTPUT_architecture} lines)
+- test-plan.md ({OUTPUT_test_plan} lines)
+...
 ```
 
-For each stage before current, show its output file with line count if it exists.
+**If STAGE=complete:**
+```
+✅ Pipeline complete!
 
-## Time Estimation
-
-If the pipeline is active (not complete), estimate time remaining based on typical durations:
-- architect: ~5 min
-- qa: ~3 min
-- security: ~3 min
-- implementer: ~10 min
-- verifier: ~5 min
-
-## If Complete
-
-If STAGE=complete, show "✅ Pipeline complete!" and list all final outputs.
+All {TOTAL} stages finished successfully.
+```
