@@ -1,0 +1,5 @@
+{
+  "name": "claude-plugins",
+  "description": "Claude Code plugin marketplace containing plugins for AI-powered development workflows.",
+  "plugins": ["pagent"]
+}
