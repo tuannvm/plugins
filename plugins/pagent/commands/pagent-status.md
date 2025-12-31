@@ -9,9 +9,7 @@ hide-from-slash-command-tool: "true"
 Check pipeline status:
 
 ```!
-if [[ ! -f .claude/pagent-pipeline.json ]]; then
-  echo "ACTIVE=false"
-else
+if [ -f .claude/pagent-pipeline.json ]; then
   echo "ACTIVE=true"
   STAGE=$(jq -r '.stage' .claude/pagent-pipeline.json)
   STARTED=$(jq -r '.started_at' .claude/pagent-pipeline.json)
@@ -19,7 +17,7 @@ else
   TOTAL=$(jq '.stages | length' .claude/pagent-pipeline.json)
   CURRENT_INDEX=$(jq -r ".stages | to_entries | map(select(.value.name == \"$STAGE\"))[0].key // 0" .claude/pagent-pipeline.json)
 
-  if [[ "$STAGE" == "complete" ]]; then
+  if [ "$STAGE" == "complete" ]; then
     COMPLETED=$TOTAL
   else
     COMPLETED=$CURRENT_INDEX
@@ -32,11 +30,13 @@ else
   echo "TOTAL=$TOTAL"
 
   # List outputs
-  [[ -f architecture.md ]] && echo "OUTPUT_architecture=$(wc -l < architecture.md)"
-  [[ -f test-plan.md ]] && echo "OUTPUT_test_plan=$(wc -l < test-plan.md)"
-  [[ -f security-assessment.md ]] && echo "OUTPUT_security=$(wc -l < security-assessment.md)"
-  [[ -d src ]] && echo "OUTPUT_src=$(find src -type f | wc -l) files"
-  [[ -f verification-report.md ]] && echo "OUTPUT_verification=$(wc -l < verification-report.md)"
+  [ -f architecture.md ] && echo "OUTPUT_architecture=$(wc -l < architecture.md)"
+  [ -f test-plan.md ] && echo "OUTPUT_test_plan=$(wc -l < test-plan.md)"
+  [ -f security-assessment.md ] && echo "OUTPUT_security=$(wc -l < security-assessment.md)"
+  [ -d src ] && echo "OUTPUT_src=$(find src -type f | wc -l) files"
+  [ -f verification-report.md ] && echo "OUTPUT_verification=$(wc -l < verification-report.md)"
+else
+  echo "ACTIVE=false"
 fi
 ```
 

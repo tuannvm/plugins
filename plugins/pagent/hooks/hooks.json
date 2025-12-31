@@ -1,5 +1,5 @@
 {
-  "description": "Pagent Stop hook for multi-stage pipeline orchestration through 5 specialized agents",
+  "description": "Pagent hooks for multi-stage pipeline orchestration through 5 specialized agents",
   "hooks": {
     "Stop": [
       {
