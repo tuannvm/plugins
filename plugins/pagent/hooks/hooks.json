@@ -1,0 +1,15 @@
+{
+  "description": "Pagent Stop hook for multi-stage pipeline orchestration through 5 specialized agents",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/pipeline-orchestrator.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
