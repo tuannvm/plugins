@@ -9,12 +9,12 @@ hide-from-slash-command-tool: "true"
 Cancel the active pipeline:
 
 ```!
-if [[ ! -f .claude/pagent-pipeline.json ]]; then
-  echo "FOUND=false"
-else
+if [ -f .claude/pagent-pipeline.json ]; then
   echo "FOUND=true"
   STAGE=$(jq -r '.stage' .claude/pagent-pipeline.json)
   echo "STAGE=$STAGE"
+else
+  echo "FOUND=false"
 fi
 ```
 

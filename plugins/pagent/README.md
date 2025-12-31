@@ -90,3 +90,41 @@ No manual intervention needed.
 - [Tutorial](docs/tutorial.md) - Step-by-step guide
 - [Architecture](docs/architecture.md) - Technical details
 - [Examples](examples/) - PRD templates
+- [CHANGELOG](CHANGELOG.md) - Version history
+
+## Versioning
+
+This project uses [Semantic Versioning](https://semver.org/).
+
+### Releasing a New Version
+
+1. Update `CHANGELOG.md` with changes under the `[Unreleased]` section
+2. Bump the version in `.claude-plugin/plugin.json`:
+   - **Patch** (x.x.X): Bug fixes, no breaking changes
+   - **Minor** (x.X.x): New features, backwards compatible
+   - **Major** (X.x.x): Breaking changes
+3. Create a new version heading: `## [X.Y.Z] - YYYY-MM-DD`
+
+### Example
+
+```markdown
+## [Unreleased]
+
+### Added
+- New feature coming soon
+
+### Fixed
+- Bug fix in progress
+```
+
+Then when releasing:
+
+```markdown
+## [2.0.2] - 2025-12-31
+
+### Added
+- New feature
+
+### Fixed
+- Bug fix
+```
