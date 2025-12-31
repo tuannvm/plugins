@@ -9,15 +9,11 @@ This marketplace currently contains the **pagent** plugin - a tool that transfor
 ### Installation
 
 ```bash
-# Clone this repository
-git clone https://github.com/tuannvm/claude-plugins.git
-cd claude-plugins
-
-# Add as a local marketplace
-claude plugin marketplace add $(pwd)
+# Add marketplace
+claude plugin marketplace add tuannvm/plugins
 
 # Install the pagent plugin
-claude plugin install pagent@claude-plugins
+claude plugin install pagent@plugins
 ```
 
 ### Usage
@@ -54,7 +50,7 @@ Transform PRDs into architecture, test plans, security assessments, production-r
 ## Marketplace Structure
 
 ```
-claude-plugins/
+plugins/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace definition
 ├── plugins/

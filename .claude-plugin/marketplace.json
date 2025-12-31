@@ -1,5 +1,10 @@
 {
-  "name": "claude-plugins",
-  "description": "Claude Code plugin marketplace containing plugins for AI-powered development workflows.",
-  "plugins": ["pagent"]
+  "name": "plugins",
+  "description": "Plugin marketplace for AI-powered development workflows.",
+  "owner": "tuannvm",
+  "plugins": [
+    {
+      "name": "pagent"
+    }
+  ]
 }
