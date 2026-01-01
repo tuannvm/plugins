@@ -2,7 +2,7 @@
 
 **Claude Code plugin marketplace containing plugins for AI-powered development workflows.**
 
-This marketplace currently contains the **pagent** plugin - a tool that transforms Product Requirements Documents (PRDs) into working software through 5 specialized AI agents.
+This marketplace contains plugins that transform Product Requirements Documents (PRDs) into working software through 5 specialized AI agents.
 
 ## Quick Start
 
@@ -12,8 +12,11 @@ This marketplace currently contains the **pagent** plugin - a tool that transfor
 # Add marketplace
 claude plugin marketplace add tuannvm/plugins
 
-# Install the pagent plugin
+# Install pagent (Bash/Node implementation)
 claude plugin install pagent@plugins
+
+# Install pagent-ts (TypeScript implementation)
+claude plugin install pagent-ts@plugins
 ```
 
 ### Usage
@@ -47,6 +50,12 @@ Transform PRDs into architecture, test plans, security assessments, production-r
 
 **Documentation:** [Tutorial](./plugins/pagent/docs/tutorial.md) | [Architecture](./plugins/pagent/docs/architecture.md) | [Roadmap](./plugins/pagent/docs/roadmap.md)
 
+### [pagent-ts](./plugins/pagent-ts/)
+
+TypeScript implementation of the pagent pipeline with full type safety. Transforms PRDs into architecture, test plans, security assessments, production-ready code, and verification reports through 5 specialized AI agents.
+
+**Documentation:** See [pagent-ts README](./plugins/pagent-ts/README.md)
+
 ## Marketplace Structure
 
 ```
@@ -54,14 +63,19 @@ plugins/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace definition
 ├── plugins/
-│   └── pagent/               # Pagent plugin
+│   ├── pagent/               # Pagent plugin (Bash/Node)
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── commands/
+│   │   ├── hooks/
+│   │   ├── scripts/
+│   │   ├── docs/             # Plugin documentation
+│   │   ├── examples/         # PRD templates
+│   │   └── README.md
+│   └── pagent-ts/            # Pagent plugin (TypeScript)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── commands/
-│       ├── hooks/
-│       ├── scripts/
-│       ├── docs/             # Plugin documentation
-│       ├── examples/         # PRD templates
+│       ├── src/
 │       └── README.md
 └── README.md
 ```

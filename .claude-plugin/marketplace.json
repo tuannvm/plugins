@@ -9,6 +9,10 @@
     {
       "name": "pagent",
       "source": "./plugins/pagent"
+    },
+    {
+      "name": "pagent-ts",
+      "source": "./plugins/pagent-ts"
     }
   ]
 }
