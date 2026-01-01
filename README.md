@@ -2,6 +2,8 @@
 
 **Claude Code plugin marketplace containing plugins for AI-powered development workflows.**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This marketplace contains plugins that transform Product Requirements Documents (PRDs) into working software through 5 specialized AI agents.
 
 ## Quick Start
@@ -36,7 +38,7 @@ Once installed, run from any Claude Code session:
 
 ## Plugins
 
-### [pagent](./plugins/pagent/)
+### [pagent](./plugins/pagent/) [![version](https://img.shields.io/badge/version-0.0.1-blue)](./plugins/pagent/)
 
 Transform PRDs into architecture, test plans, security assessments, production-ready code, and verification reports through 5 specialized AI agents:
 
@@ -50,7 +52,7 @@ Transform PRDs into architecture, test plans, security assessments, production-r
 
 **Documentation:** [Tutorial](./plugins/pagent/docs/tutorial.md) | [Architecture](./plugins/pagent/docs/architecture.md) | [Roadmap](./plugins/pagent/docs/roadmap.md)
 
-### [pagent-ts](./plugins/pagent-ts/)
+### [pagent-ts](./plugins/pagent-ts/) [![version](https://img.shields.io/badge/version-0.0.1-blue)](./plugins/pagent-ts/)
 
 TypeScript implementation of the pagent pipeline with full type safety. Transforms PRDs into architecture, test plans, security assessments, production-ready code, and verification reports through 5 specialized AI agents.
 
