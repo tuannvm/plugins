@@ -1,0 +1,15 @@
+{
+  "description": "Pagent-TS hooks for multi-stage pipeline orchestration through 5 specialized agents (TypeScript implementation)",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/hooks/pipeline-orchestrator.ts"
+          }
+        ]
+      }
+    ]
+  }
+}

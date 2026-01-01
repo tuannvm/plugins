@@ -1,7 +1,7 @@
 {
   "name": "pagent",
   "description": "Product Requirement Document (PRD) to working software through 5 specialized AI agents. Transforms PRDs into architecture, test plans, security assessments, code, and verification reports.",
-  "version": "2.0.2",
+  "version": "0.0.1",
   "author": {
     "name": "tuannvm"
   }

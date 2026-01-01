@@ -1,6 +1,8 @@
-# Pagent
+# Pagent-TS
 
-Transform PRDs into working software through AI agents.
+**TypeScript implementation** of the Pagent pipeline - transforms PRDs into working software through AI agents.
+
+This is the type-safe, maintainable version of the [pagent](../pagent/) bash plugin.
 
 ## Quick Start
 
@@ -91,6 +93,33 @@ No manual intervention needed.
 - [Architecture](docs/architecture.md) - Technical details
 - [Examples](examples/) - PRD templates
 - [CHANGELOG](CHANGELOG.md) - Version history
+
+## TypeScript Implementation
+
+This version uses:
+- **TypeScript 5.7** with strict mode enabled
+- **tsx** for ESM execution (no build step required)
+- **Full type definitions** for all data structures
+- **Native JSON handling** (no `jq` dependency)
+
+### Development
+
+```bash
+cd plugins/pagent-ts
+npm install
+npm run check  # Type check
+npm run build  # Compile to JS (optional)
+```
+
+### Comparison with Bash Version
+
+| Feature | pagent (bash) | pagent-ts |
+|---------|---------------|-----------|
+| Dependencies | bash + jq | Node.js + TypeScript |
+| Type Safety | No | Yes (strict) |
+| Lines of Code | ~450 | ~750 |
+| JSON Parsing | `jq` | Native `JSON` |
+| File Operations | Bash utilities | `fs/promises` |
 
 ## Versioning
 

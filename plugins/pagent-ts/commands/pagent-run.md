@@ -1,16 +1,16 @@
 ---
-description: "Start pagent pipeline to transform PRD into working software through 5 specialized AI agents"
+description: "Start pagent-ts pipeline to transform PRD into working software through 5 specialized AI agents (TypeScript version)"
 argument-hint: "<prd-file> [--workflow prd-to-code] [--max-stages N]"
-allowed-tools: ["Bash(${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.sh *)"]
+allowed-tools: ["Bash(npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.ts *)"]
 hide-from-slash-command-tool: "true"
 ---
 
-# Pagent Run
+# Pagent-TS Run
 
-Execute the setup script to initialize the pagent pipeline:
+Execute the setup script to initialize the pagent-ts pipeline:
 
 ```!
-"${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.sh" $ARGUMENTS
+npx tsx "${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.ts" $ARGUMENTS
 ```
 
 The script will:

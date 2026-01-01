@@ -1,0 +1,8 @@
+{
+  "name": "pagent-ts",
+  "description": "Product Requirement Document (PRD) to working software through 5 specialized AI agents. TypeScript implementation with full type safety.",
+  "version": "0.0.1",
+  "author": {
+    "name": "tuannvm"
+  }
+}
