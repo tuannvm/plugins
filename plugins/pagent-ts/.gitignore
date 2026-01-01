@@ -1,0 +1,18 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# TypeScript
+dist/
+
+# Runtime artifacts - created in user projects when they run /pagent-run
+.claude/pagent-pipeline.json
+.claude/prompts/
+.claude/ralph-loop.local.md
+
+# Generated outputs in examples/ (from running /pagent-run)
+examples/architecture.md
+examples/test-plan.md
+examples/security-assessment.md
+examples/src/
+examples/.claude/
