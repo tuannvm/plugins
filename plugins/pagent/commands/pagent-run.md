@@ -1,7 +1,7 @@
 ---
 description: "Start pagent pipeline to transform PRD into working software through 5 specialized AI agents"
 argument-hint: "<prd-file> [--workflow prd-to-code] [--max-stages N]"
-allowed-tools: ["Bash(${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.sh)"]
+allowed-tools: ["Bash(${CLAUDE_PLUGIN_ROOT}/scripts/setup-pipeline.sh *)"]
 hide-from-slash-command-tool: "true"
 ---
 

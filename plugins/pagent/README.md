@@ -120,7 +120,7 @@ This project uses [Semantic Versioning](https://semver.org/).
 Then when releasing:
 
 ```markdown
-## [2.0.2] - 2025-12-31
+## [0.0.2] - 2025-12-31
 
 ### Added
 - New feature
