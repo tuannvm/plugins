@@ -58,6 +58,12 @@ TypeScript implementation of the pagent pipeline with full type safety. Transfor
 
 **Documentation:** See [pagent-ts README](./plugins/pagent-ts/README.md)
 
+### [ralph-wiggum](./plugins/ralph-wiggum/) [![version](https://img.shields.io/badge/version-0.1.0-blue)](./plugins/ralph-wiggum/)
+
+Implementation of the Ralph Wiggum technique - continuous self-referential AI loops for iterative development. Run Claude in a loop with the same prompt until task completion using a Stop hook that intercepts exit attempts.
+
+**Documentation:** See [ralph-wiggum README](./plugins/ralph-wiggum/README.md)
+
 ## Marketplace Structure
 
 ```
@@ -74,10 +80,17 @@ plugins/
 │   │   ├── docs/             # Plugin documentation
 │   │   ├── examples/         # PRD templates
 │   │   └── README.md
-│   └── pagent-ts/            # Pagent plugin (TypeScript)
+│   ├── pagent-ts/            # Pagent plugin (TypeScript)
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── src/
+│   │   └── README.md
+│   └── ralph-wiggum/         # Ralph Wiggum iterative loops
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── src/
+│       ├── commands/
+│       ├── hooks/
+│       ├── scripts/
 │       └── README.md
 └── README.md
 ```
