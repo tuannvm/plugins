@@ -36,17 +36,20 @@ The technique is described as "deterministically bad in an undeterministic world
 Start a Ralph loop in your current session.
 
 **Usage:**
-```
+```text
 /ralph-loop "Refactor the cache layer" --max-iterations 20
 /ralph-loop "Add tests" --completion-promise "TESTS COMPLETE"
 ```
 
 **Options:**
-- `--max-iterations <n>` - Max iterations before auto-stop
-- `--completion-promise <text>` - Promise phrase to signal completion
+- `--max-iterations <n>` - Max iterations before auto-stop (REQUIRED if no completion-promise)
+- `--completion-promise <text>` - Promise phrase to signal completion (REQUIRED if no max-iterations)
+
+**Requirements:**
+At least one exit condition MUST be specified to prevent infinite loops.
 
 **How it works:**
-1. Creates `.claude/.ralph-loop.local.md` state file
+1. Creates `.claude/ralph-loop.local.md` state file
 2. You work on the task
 3. When you try to exit, stop hook intercepts
 4. Same prompt fed back
@@ -60,13 +63,13 @@ Start a Ralph loop in your current session.
 Cancel an active Ralph loop (removes the loop state file).
 
 **Usage:**
-```
+```text
 /cancel-ralph
 ```
 
 **How it works:**
 - Checks for active loop state file
-- Removes `.claude/.ralph-loop.local.md`
+- Removes `.claude/ralph-loop.local.md`
 - Reports cancellation with iteration count
 
 ---
@@ -77,11 +80,11 @@ Cancel an active Ralph loop (removes the loop state file).
 
 To signal completion, Claude must output a `<promise>` tag:
 
-```
+```text
 <promise>TASK COMPLETE</promise>
 ```
 
-The stop hook looks for this specific tag. Without it (or `--max-iterations`), Ralph runs infinitely.
+The stop hook looks for this specific tag. At least one exit condition (max-iterations or completion-promise) is required.
 
 ### Self-Reference Mechanism
 
@@ -95,7 +98,7 @@ The "loop" doesn't mean Claude talks to itself. It means:
 
 ### Interactive Bug Fix
 
-```
+```text
 /ralph-loop "Fix the token refresh logic in auth.ts. Output <promise>FIXED</promise> when all tests pass." --completion-promise "FIXED" --max-iterations 10
 ```
 
@@ -122,5 +125,5 @@ You'll see Ralph:
 
 ## Learn More
 
-- Original technique: https://ghuntley.com/ralph/
-- Ralph Orchestrator: https://github.com/mikeyobrien/ralph-orchestrator
+- Original technique: [https://ghuntley.com/ralph/](https://ghuntley.com/ralph/)
+- Ralph Orchestrator: [https://github.com/mikeyobrien/ralph-orchestrator](https://github.com/mikeyobrien/ralph-orchestrator)

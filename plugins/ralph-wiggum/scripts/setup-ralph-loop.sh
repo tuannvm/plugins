@@ -24,8 +24,8 @@ ARGUMENTS:
   PROMPT...    Initial prompt to start the loop (can be multiple words without quotes)
 
 OPTIONS:
-  --max-iterations <n>           Maximum iterations before auto-stop (default: unlimited)
-  --completion-promise '<text>'  Promise phrase (USE QUOTES for multi-word)
+  --max-iterations <n>           Maximum iterations before auto-stop (REQUIRED if no completion-promise)
+  --completion-promise '<text>'  Promise phrase (REQUIRED if no max-iterations, USE QUOTES for multi-word)
   -h, --help                     Show this help message
 
 DESCRIPTION:
@@ -39,15 +39,20 @@ DESCRIPTION:
   - Tasks requiring self-correction and refinement
   - Learning how Ralph works
 
+REQUIREMENTS:
+  At least one exit condition MUST be specified:
+  - --max-iterations <n>    Auto-stop after N iterations
+  - --completion-promise    Stop when promise phrase is detected
+
 EXAMPLES:
   /ralph-loop Build a todo API --completion-promise 'DONE' --max-iterations 20
   /ralph-loop --max-iterations 10 Fix the auth bug
-  /ralph-loop Refactor cache layer  (runs forever)
   /ralph-loop --completion-promise 'TASK COMPLETE' Create a REST API
 
 STOPPING:
-  Only by reaching --max-iterations or detecting --completion-promise
-  No manual stop - Ralph runs infinitely by default!
+  - By reaching --max-iterations limit
+  - By outputting <promise>YOUR_PHRASE</promise> tag
+  - Use /cancel-ralph to manually stop
 
 MONITORING:
   # View current iteration:
@@ -127,8 +132,25 @@ if [[ -z "$PROMPT" ]]; then
   exit 1
 fi
 
+# Validate that at least one exit condition is set
+if [[ $MAX_ITERATIONS -eq 0 ]] && [[ "$COMPLETION_PROMISE" = "null" ]]; then
+  echo "❌ Error: No exit condition specified" >&2
+  echo "" >&2
+  echo "   Ralph loop requires either --max-iterations or --completion-promise" >&2
+  echo "   to prevent infinite loops." >&2
+  echo "" >&2
+  echo "   Examples:" >&2
+  echo "     /ralph-loop 'Build a REST API' --max-iterations 20" >&2
+  echo "     /ralph-loop 'Fix the bug' --completion-promise 'DONE'" >&2
+  echo "     /ralph-loop 'Refactor code' --max-iterations 50 --completion-promise 'COMPLETE'" >&2
+  echo "" >&2
+  echo "   For all options: /ralph-loop --help" >&2
+  exit 1
+fi
+
 # Create state file for stop hook (markdown with YAML frontmatter)
 mkdir -p .claude
+chmod 700 .claude 2>/dev/null || true
 
 # Quote completion promise for YAML if it contains special chars or is not null
 if [[ -n "$COMPLETION_PROMISE" ]] && [[ "$COMPLETION_PROMISE" != "null" ]]; then
@@ -155,7 +177,7 @@ cat <<EOF
 
 Iteration: 1
 Max iterations: $(if [[ $MAX_ITERATIONS -gt 0 ]]; then echo $MAX_ITERATIONS; else echo "unlimited"; fi)
-Completion promise: $(if [[ "$COMPLETION_PROMISE" != "null" ]]; then echo "${COMPLETION_PROMISE//\"/} (ONLY output when TRUE - do not lie!)"; else echo "none (runs forever)"; fi)
+Completion promise: $(if [[ "$COMPLETION_PROMISE" != "null" ]]; then echo "${COMPLETION_PROMISE//\"/} (ONLY output when TRUE - do not lie!)"; else echo "none"; fi)
 
 The stop hook is now active. When you try to exit, the SAME PROMPT will be
 fed back to you. You'll see your previous work in files, creating a
@@ -163,17 +185,12 @@ self-referential loop where you iteratively improve on the same task.
 
 To monitor: head -10 .claude/ralph-loop.local.md
 
-⚠️  WARNING: This loop cannot be stopped manually! It will run infinitely
-    unless you set --max-iterations or --completion-promise.
-
 🔄
 EOF
 
-# Output the initial prompt if provided
-if [[ -n "$PROMPT" ]]; then
-  echo ""
-  echo "$PROMPT"
-fi
+# Output the initial prompt
+echo ""
+echo "$PROMPT"
 
 # Extract and display completion promise if set
 if [[ -n "$COMPLETION_PROMISE" ]] && [[ "$COMPLETION_PROMISE" != "null" ]]; then

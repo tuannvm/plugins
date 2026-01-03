@@ -57,8 +57,11 @@ Start a Ralph loop in your current session.
 ```
 
 **Options:**
-- `--max-iterations <n>` - Stop after N iterations (default: unlimited)
-- `--completion-promise <text>` - Phrase that signals completion
+- `--max-iterations <n>` - Stop after N iterations (REQUIRED if no completion-promise)
+- `--completion-promise <text>` - Phrase that signals completion (REQUIRED if no max-iterations)
+
+**Requirements:**
+At least one exit condition MUST be specified to prevent infinite loops.
 
 ### /cancel-ralph
 
@@ -116,13 +119,13 @@ Implement feature X following TDD:
 7. Output: <promise>COMPLETE</promise>
 ```
 
-### 4. Escape Hatches
+### 4. Safety Limits
 
-Always use `--max-iterations` as a safety net to prevent infinite loops on impossible tasks:
+Always use `--max-iterations` as a hard limit to prevent excessive iterations:
 
 ```bash
 # Recommended: Always set a reasonable iteration limit
-/ralph-loop "Try to implement feature X" --max-iterations 20
+/ralph-loop "Try to implement feature X" --completion-promise "DONE" --max-iterations 20
 
 # In your prompt, include what to do if stuck:
 # "After 15 iterations, if not complete:
@@ -131,7 +134,7 @@ Always use `--max-iterations` as a safety net to prevent infinite loops on impos
 #  - Suggest alternative approaches"
 ```
 
-**Note**: The `--completion-promise` uses exact string matching, so you cannot use it for multiple completion conditions (like "SUCCESS" vs "BLOCKED"). Always rely on `--max-iterations` as your primary safety mechanism.
+**Note**: The `--completion-promise` uses exact string matching, so you cannot use it for multiple completion conditions (like "SUCCESS" vs "BLOCKED"). Use `--max-iterations` as a hard limit regardless of completion promise.
 
 ## Philosophy
 
@@ -166,13 +169,13 @@ Keep trying until success. The loop handles retry logic automatically.
 ## Real-World Results
 
 - Successfully generated 6 repositories overnight in Y Combinator hackathon testing
-- One $50k contract completed for $297 in API costs
-- Created entire programming language ("cursed") over 3 months using this approach
+- Building a new programming language (CURSED) autonomously
+- Reported contracts with exceptional ROI using this technique
 
 ## Learn More
 
-- Original technique: https://ghuntley.com/ralph/
-- Ralph Orchestrator: https://github.com/mikeyobrien/ralph-orchestrator
+- Original technique: [https://ghuntley.com/ralph/](https://ghuntley.com/ralph/)
+- Ralph Orchestrator: [https://github.com/mikeyobrien/ralph-orchestrator](https://github.com/mikeyobrien/ralph-orchestrator)
 
 ## For Help
 
