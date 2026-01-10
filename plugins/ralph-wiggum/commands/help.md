@@ -31,9 +31,11 @@ The technique is described as "deterministically bad in an undeterministic world
 
 ## Available Commands
 
-### /ralph-loop <PROMPT> [OPTIONS]
+### /ralph-loop "<PROMPT>" [OPTIONS]
 
 Start a Ralph loop in your current session.
+
+**IMPORTANT:** PROMPT must always be wrapped in quotes.
 
 **Usage:**
 ```text
@@ -42,11 +44,13 @@ Start a Ralph loop in your current session.
 ```
 
 **Options:**
+- `"PROMPT"` - The task prompt (REQUIRED, must be quoted)
 - `--max-iterations <n>` - Max iterations before auto-stop (REQUIRED if no completion-promise)
-- `--completion-promise <text>` - Promise phrase to signal completion (REQUIRED if no max-iterations)
+- `--completion-promise "<text>"` - Promise phrase to signal completion (REQUIRED if no max-iterations, must be quoted)
 
 **Requirements:**
-At least one exit condition MUST be specified to prevent infinite loops.
+- PROMPT must always be wrapped in quotes
+- At least one exit condition MUST be specified to prevent infinite loops
 
 **How it works:**
 1. Creates `.claude/ralph-loop.local.md` state file
