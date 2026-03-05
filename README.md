@@ -64,6 +64,32 @@ Implementation of the Ralph Wiggum technique - continuous self-referential AI lo
 
 **Documentation:** See [ralph-wiggum README](./plugins/ralph-wiggum/README.md)
 
+## Native GitHub Source References
+
+This marketplace uses native GitHub source references in `marketplace.json` for Google Workspace skills.
+
+#### Install Google Workspace Skills
+
+```bash
+# Install a Google Workspace skill from this marketplace
+claude plugin install gws-calendar@plugins
+```
+
+#### Available GWS Skills
+
+| Skill | Description |
+|-------|-------------|
+| `gws-calendar` | Google Calendar: Manage calendars and events |
+| `gws-gmail` | Gmail: Email operations and management |
+| `gws-drive` | Google Drive: File and folder management |
+| `gws-docs` | Google Docs: Document operations |
+| `gws-sheets` | Google Sheets: Spreadsheet operations |
+| `gws-chat` | Google Chat: Messaging and space integration |
+| `gws-meet` | Google Meet: Meeting and conference integration |
+| `gws-tasks` | Google Tasks: Task and list management |
+
+**Note:** These skills require the Google Workspace CLI tool (`gws`) to be installed and available in your environment.
+
 ## Marketplace Structure
 
 ```
