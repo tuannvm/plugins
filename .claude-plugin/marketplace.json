@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins",
-  "description": "Plugin marketplace for AI-powered development workflows. Includes local plugins and remote skill references.",
+  "description": "Plugin marketplace for AI-powered development workflows. Includes local plugins and Google Workspace skills.",
   "owner": {
     "name": "tuannvm"
   },
@@ -19,144 +19,127 @@
       "source": "./plugins/ralph-wiggum"
     },
     {
-      "name": "gws-calendar",
-      "description": "Google Calendar: Manage calendars and events",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-calendar"
-      }
+      "name": "google-workspace",
+      "description": "Comprehensive Google Workspace meta-skill covering all 47+ services (Calendar, Gmail, Drive, Docs, Sheets, Slides, Chat, Meet, Tasks, Forms, People, Workflows, and more)",
+      "source": "./skills/google-workspace"
     },
     {
-      "name": "gws-gmail",
-      "description": "Gmail: Email operations and management",
+      "name": "gws-cli",
+      "description": "All Google Workspace CLI skills from googleworkspace/cli repository",
       "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-gmail"
-      }
-    },
-    {
-      "name": "gws-drive",
-      "description": "Google Drive: File and folder management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-drive"
-      }
-    },
-    {
-      "name": "gws-sheets",
-      "description": "Google Sheets: Spreadsheet operations and data management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-sheets"
-      }
-    },
-    {
-      "name": "gws-docs",
-      "description": "Google Docs: Document creation and editing",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-docs"
-      }
-    },
-    {
-      "name": "gws-slides",
-      "description": "Google Slides: Presentation creation and editing",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-slides"
-      }
-    },
-    {
-      "name": "gws-meet",
-      "description": "Google Meet: Video conferencing management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-meet"
-      }
-    },
-    {
-      "name": "gws-chat",
-      "description": "Google Chat: Team messaging and communication",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-chat"
-      }
-    },
-    {
-      "name": "gws-tasks",
-      "description": "Google Tasks: Task and to-do list management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-tasks"
-      }
-    },
-    {
-      "name": "gws-forms",
-      "description": "Google Forms: Survey and form creation",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-forms"
-      }
-    },
-    {
-      "name": "gws-people",
-      "description": "Google Contacts: Contact management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-people"
-      }
-    },
-    {
-      "name": "gws-workflow",
-      "description": "Google Workspace workflow automation utilities",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-workflow"
-      }
-    },
-    {
-      "name": "persona-assistants",
-      "description": "Persona-based AI assistants for various roles",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/persona"
-      }
-    },
-    {
-      "name": "recipe-workflows",
-      "description": "Curated workflow automation recipes",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/recipe"
-      }
+        "source": "github",
+        "repo": "googleworkspace/cli",
+        "branch": "main"
+      },
+      "skills": [
+        "./skills/gws-admin",
+        "./skills/gws-admin-reports",
+        "./skills/gws-alertcenter",
+        "./skills/gws-apps-script",
+        "./skills/gws-apps-script-push",
+        "./skills/gws-calendar",
+        "./skills/gws-calendar-agenda",
+        "./skills/gws-calendar-insert",
+        "./skills/gws-chat",
+        "./skills/gws-chat-send",
+        "./skills/gws-classroom",
+        "./skills/gws-cloudidentity",
+        "./skills/gws-docs",
+        "./skills/gws-docs-write",
+        "./skills/gws-drive",
+        "./skills/gws-drive-upload",
+        "./skills/gws-events",
+        "./skills/gws-events-renew",
+        "./skills/gws-events-subscribe",
+        "./skills/gws-forms",
+        "./skills/gws-gmail",
+        "./skills/gws-gmail-send",
+        "./skills/gws-gmail-triage",
+        "./skills/gws-gmail-watch",
+        "./skills/gws-groupssettings",
+        "./skills/gws-keep",
+        "./skills/gws-licensing",
+        "./skills/gws-meet",
+        "./skills/gws-modelarmor",
+        "./skills/gws-modelarmor-create-template",
+        "./skills/gws-modelarmor-sanitize-prompt",
+        "./skills/gws-modelarmor-sanitize-response",
+        "./skills/gws-people",
+        "./skills/gws-reseller",
+        "./skills/gws-shared",
+        "./skills/gws-sheets",
+        "./skills/gws-sheets-append",
+        "./skills/gws-sheets-read",
+        "./skills/gws-slides",
+        "./skills/gws-tasks",
+        "./skills/gws-vault",
+        "./skills/gws-workflow",
+        "./skills/gws-workflow-email-to-task",
+        "./skills/gws-workflow-file-announce",
+        "./skills/gws-workflow-meeting-prep",
+        "./skills/gws-workflow-standup-report",
+        "./skills/gws-workflow-weekly-digest",
+        "./skills/persona-content-creator",
+        "./skills/persona-customer-support",
+        "./skills/persona-event-coordinator",
+        "./skills/persona-exec-assistant",
+        "./skills/persona-hr-coordinator",
+        "./skills/persona-it-admin",
+        "./skills/persona-project-manager",
+        "./skills/persona-researcher",
+        "./skills/persona-sales-ops",
+        "./skills/persona-team-lead",
+        "./skills/recipe-audit-external-sharing",
+        "./skills/recipe-backup-sheet-as-csv",
+        "./skills/recipe-batch-invite-to-event",
+        "./skills/recipe-batch-rename-files",
+        "./skills/recipe-batch-reply-to-emails",
+        "./skills/recipe-block-focus-time",
+        "./skills/recipe-bulk-download-folder",
+        "./skills/recipe-cancel-and-notify",
+        "./skills/recipe-collect-form-responses",
+        "./skills/recipe-compare-sheet-tabs",
+        "./skills/recipe-copy-sheet-for-new-month",
+        "./skills/recipe-create-classroom-course",
+        "./skills/recipe-create-doc-from-template",
+        "./skills/recipe-create-events-from-sheet",
+        "./skills/recipe-create-expense-tracker",
+        "./skills/recipe-create-feedback-form",
+        "./skills/recipe-create-gmail-filter",
+        "./skills/recipe-create-meet-space",
+        "./skills/recipe-create-presentation",
+        "./skills/recipe-create-shared-drive",
+        "./skills/recipe-create-task-list",
+        "./skills/recipe-create-vacation-responder",
+        "./skills/recipe-deploy-apps-script",
+        "./skills/recipe-draft-email-from-doc",
+        "./skills/recipe-email-drive-link",
+        "./skills/recipe-find-free-time",
+        "./skills/recipe-find-large-files",
+        "./skills/recipe-forward-labeled-emails",
+        "./skills/recipe-generate-report-from-sheet",
+        "./skills/recipe-label-and-archive-emails",
+        "./skills/recipe-log-deal-update",
+        "./skills/recipe-organize-drive-folder",
+        "./skills/recipe-plan-weekly-schedule",
+        "./skills/recipe-post-mortem-setup",
+        "./skills/recipe-reschedule-meeting",
+        "./skills/recipe-review-meet-participants",
+        "./skills/recipe-review-overdue-tasks",
+        "./skills/recipe-save-email-attachments",
+        "./skills/recipe-save-email-to-doc",
+        "./skills/recipe-schedule-recurring-event",
+        "./skills/recipe-search-and-export-emails",
+        "./skills/recipe-send-personalized-emails",
+        "./skills/recipe-send-team-announcement",
+        "./skills/recipe-share-doc-and-notify",
+        "./skills/recipe-share-event-materials",
+        "./skills/recipe-share-folder-with-team",
+        "./skills/recipe-sync-contacts-to-sheet",
+        "./skills/recipe-transfer-file-ownership",
+        "./skills/recipe-triage-security-alerts",
+        "./skills/recipe-watch-drive-changes"
+      ]
     }
   ]
 }
