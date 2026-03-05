@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins",
-  "description": "Plugin marketplace for AI-powered development workflows.",
+  "description": "Plugin marketplace for AI-powered development workflows. Includes local plugins and remote skill references.",
   "owner": {
     "name": "tuannvm"
   },
@@ -19,13 +19,143 @@
       "source": "./plugins/ralph-wiggum"
     },
     {
-      "name": "google-workspace-skills",
-      "description": "Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more.",
+      "name": "gws-calendar",
+      "description": "Google Calendar: Manage calendars and events",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/googleworkspace/cli",
         "ref": "main",
-        "path": "skills"
+        "path": "skills/gws-calendar"
+      }
+    },
+    {
+      "name": "gws-gmail",
+      "description": "Gmail: Email operations and management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-gmail"
+      }
+    },
+    {
+      "name": "gws-drive",
+      "description": "Google Drive: File and folder management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-drive"
+      }
+    },
+    {
+      "name": "gws-sheets",
+      "description": "Google Sheets: Spreadsheet operations and data management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-sheets"
+      }
+    },
+    {
+      "name": "gws-docs",
+      "description": "Google Docs: Document creation and editing",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-docs"
+      }
+    },
+    {
+      "name": "gws-slides",
+      "description": "Google Slides: Presentation creation and editing",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-slides"
+      }
+    },
+    {
+      "name": "gws-meet",
+      "description": "Google Meet: Video conferencing management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-meet"
+      }
+    },
+    {
+      "name": "gws-chat",
+      "description": "Google Chat: Team messaging and communication",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-chat"
+      }
+    },
+    {
+      "name": "gws-tasks",
+      "description": "Google Tasks: Task and to-do list management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-tasks"
+      }
+    },
+    {
+      "name": "gws-forms",
+      "description": "Google Forms: Survey and form creation",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-forms"
+      }
+    },
+    {
+      "name": "gws-people",
+      "description": "Google Contacts: Contact management",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-people"
+      }
+    },
+    {
+      "name": "gws-workflow",
+      "description": "Google Workspace workflow automation utilities",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/gws-workflow"
+      }
+    },
+    {
+      "name": "persona-assistants",
+      "description": "Persona-based AI assistants for various roles",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/persona"
+      }
+    },
+    {
+      "name": "recipe-workflows",
+      "description": "Curated workflow automation recipes",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/googleworkspace/cli",
+        "ref": "main",
+        "path": "skills/recipe"
       }
     }
   ]

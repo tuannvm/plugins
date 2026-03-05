@@ -1,8 +1,0 @@
-{
-  "name": "google-workspace-skills",
-  "description": "Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more.",
-  "author": {
-    "name": "tuannvm"
-  },
-  "skills": "gws-cli/skills"
-}

@@ -14,11 +14,16 @@ This marketplace contains plugins that transform Product Requirements Documents 
 # Add marketplace
 claude plugin marketplace add tuannvm/plugins
 
-# Install pagent (Bash/Node implementation)
-claude plugin install pagent@plugins
+# Install local plugins
+claude plugin install pagent@plugins           # PRD-to-code pipeline (Bash/Node)
+claude plugin install pagent-ts@plugins        # PRD-to-code pipeline (TypeScript)
+claude plugin install ralph-wiggum@plugins     # Iterative AI loops
 
-# Install pagent-ts (TypeScript implementation)
-claude plugin install pagent-ts@plugins
+# Install Google Workspace skills (fetched from remote)
+claude plugin install gws-calendar@plugins     # Calendar management
+claude plugin install gws-gmail@plugins        # Email operations
+claude plugin install gws-drive@plugins        # File management
+# ... and more
 ```
 
 ### Usage
@@ -64,40 +69,74 @@ Implementation of the Ralph Wiggum technique - continuous self-referential AI lo
 
 **Documentation:** See [ralph-wiggum README](./plugins/ralph-wiggum/README.md)
 
-## External Skills Reference
-
-### Google Workspace CLI Skills
+## Google Workspace Skills
 
 The [Google Workspace CLI](https://github.com/googleworkspace/cli) provides 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more.
 
-#### Installation
+### Installation
 
 ```bash
 # Add the marketplace first
 claude plugin marketplace add tuannvm/plugins
 
-# Install Google Workspace skills plugin
-claude plugin install google-workspace-skills@plugins
+# Install individual skills as needed
+claude plugin install gws-calendar@plugins
+claude plugin install gws-gmail@plugins
+claude plugin install gws-drive@plugins
+# ... or install all at once
+claude plugin install gws-*@plugins
 ```
 
-#### Usage
+### Available Skills
 
-Once installed, skills are available via the `gws-*` prefix:
+#### Core Workspace APIs
+
+| Skill | Description |
+|-------|-------------|
+| `gws-calendar` | Manage calendars and events |
+| `gws-gmail` | Email operations and management |
+| `gws-drive` | File and folder management |
+| `gws-sheets` | Spreadsheet operations and data management |
+| `gws-docs` | Document creation and editing |
+| `gws-slides` | Presentation creation and editing |
+| `gws-meet` | Video conferencing management |
+| `gws-chat` | Team messaging and communication |
+| `gws-tasks` | Task and to-do list management |
+| `gws-forms` | Survey and form creation |
+| `gws-people` | Contact management |
+| `gws-workflow` | Workflow automation utilities |
+
+#### Persona Assistants
+
+| Skill | Description |
+|-------|-------------|
+| `persona-assistants` | Role-based AI assistants (content creator, customer support, event coordinator, exec assistant, HR coordinator, IT admin, project manager, researcher, sales ops, team lead) |
+
+#### Workflow Recipes
+
+| Skill | Description |
+|-------|-------------|
+| `recipe-workflows` | Curated workflow automation recipes (bulk email, file management, meeting prep, reports, and more) |
+
+### Usage Examples
 
 ```bash
-# Example gws skills
+# Calendar
 /gws-calendar list
-/gws-gmail send --to user@example.com --subject "Hello"
+/gws-calendar create --title "Team Meeting" --time "2026-03-06 10:00"
+
+# Gmail
+/gws-gmail send --to user@example.com --subject "Hello" --body "Hi there!"
+/gws-gmail list --label inbox
+
+# Drive
 /gws-drive list
+/gws-drive upload --file ./document.pdf
+
+# Workflow recipes
+/recipe-bulk-invite-to-event
+/recipe-create-meeting-prep
 ```
-
-#### Categories
-
-| Category | Count | Description |
-|----------|-------|-------------|
-| gws-* | 47 | Google Workspace API bindings |
-| persona-* | 10 | Persona-based assistant skills |
-| recipe-* | 50 | Workflow automation recipes |
 
 ## Marketplace Structure
 
@@ -129,6 +168,8 @@ plugins/
 │       └── README.md
 └── README.md
 ```
+
+**Note:** Google Workspace skills are fetched directly from the [googleworkspace/cli](https://github.com/googleworkspace/cli) repository using `git-subdir` source type, so they don't have local plugin directories.
 
 ## Contributing
 
