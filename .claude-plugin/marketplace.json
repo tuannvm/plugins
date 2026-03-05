@@ -19,83 +19,13 @@
       "source": "./plugins/ralph-wiggum"
     },
     {
-      "name": "gws-calendar",
-      "description": "Google Calendar: Manage calendars and events",
+      "name": "google-workspace-skills",
+      "description": "Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more. Includes gws-*, persona-*, and recipe-* skill collections.",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/googleworkspace/cli",
         "ref": "main",
-        "path": "skills/gws-calendar"
-      }
-    },
-    {
-      "name": "gws-gmail",
-      "description": "Gmail: Email operations and management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-gmail"
-      }
-    },
-    {
-      "name": "gws-drive",
-      "description": "Google Drive: File and folder management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-drive"
-      }
-    },
-    {
-      "name": "gws-docs",
-      "description": "Google Docs: Document operations",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-docs"
-      }
-    },
-    {
-      "name": "gws-sheets",
-      "description": "Google Sheets: Spreadsheet operations",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-sheets"
-      }
-    },
-    {
-      "name": "gws-chat",
-      "description": "Google Chat: Messaging and space integration",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-chat"
-      }
-    },
-    {
-      "name": "gws-meet",
-      "description": "Google Meet: Meeting and conference integration",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-meet"
-      }
-    },
-    {
-      "name": "gws-tasks",
-      "description": "Google Tasks: Task and list management",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/googleworkspace/cli",
-        "ref": "main",
-        "path": "skills/gws-tasks"
+        "path": "skills"
       }
     }
   ]

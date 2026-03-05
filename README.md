@@ -71,22 +71,15 @@ This marketplace uses native GitHub source references in `marketplace.json` for 
 #### Install Google Workspace Skills
 
 ```bash
-# Install a Google Workspace skill from this marketplace
-claude plugin install gws-calendar@plugins
+# Install the consolidated Google Workspace skills plugin
+claude plugin install google-workspace-skills@plugins
 ```
 
-#### Available GWS Skills
+#### Available Google Workspace Entry
 
-| Skill | Description |
+| Plugin | Description |
 |-------|-------------|
-| `gws-calendar` | Google Calendar: Manage calendars and events |
-| `gws-gmail` | Gmail: Email operations and management |
-| `gws-drive` | Google Drive: File and folder management |
-| `gws-docs` | Google Docs: Document operations |
-| `gws-sheets` | Google Sheets: Spreadsheet operations |
-| `gws-chat` | Google Chat: Messaging and space integration |
-| `gws-meet` | Google Meet: Meeting and conference integration |
-| `gws-tasks` | Google Tasks: Task and list management |
+| `google-workspace-skills` | Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more. Includes `gws-*`, `persona-*`, and `recipe-*` skill collections. |
 
 **Note:** These skills require the Google Workspace CLI tool (`gws`) to be installed and available in your environment.
 
