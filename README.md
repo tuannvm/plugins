@@ -64,24 +64,40 @@ Implementation of the Ralph Wiggum technique - continuous self-referential AI lo
 
 **Documentation:** See [ralph-wiggum README](./plugins/ralph-wiggum/README.md)
 
-## Native GitHub Source References
+## External Skills Reference
 
-This marketplace uses native GitHub source references in `marketplace.json` for Google Workspace skills.
+### Google Workspace CLI Skills
 
-#### Install Google Workspace Skills
+The [Google Workspace CLI](https://github.com/googleworkspace/cli) provides 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more.
+
+#### Installation
 
 ```bash
-# Install the consolidated Google Workspace skills plugin
+# Add the marketplace first
+claude plugin marketplace add tuannvm/plugins
+
+# Install Google Workspace skills plugin
 claude plugin install google-workspace-skills@plugins
 ```
 
-#### Available Google Workspace Entry
+#### Usage
 
-| Plugin | Description |
-|-------|-------------|
-| `google-workspace-skills` | Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more. Includes `gws-*`, `persona-*`, and `recipe-*` skill collections. |
+Once installed, skills are available via the `gws-*` prefix:
 
-**Note:** These skills require the Google Workspace CLI tool (`gws`) to be installed and available in your environment.
+```bash
+# Example gws skills
+/gws-calendar list
+/gws-gmail send --to user@example.com --subject "Hello"
+/gws-drive list
+```
+
+#### Categories
+
+| Category | Count | Description |
+|----------|-------|-------------|
+| gws-* | 47 | Google Workspace API bindings |
+| persona-* | 10 | Persona-based assistant skills |
+| recipe-* | 50 | Workflow automation recipes |
 
 ## Marketplace Structure
 

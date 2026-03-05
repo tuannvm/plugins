@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "plugins",
-  "description": "Plugin marketplace for AI-powered development workflows. Includes local plugins and remote skill references.",
+  "description": "Plugin marketplace for AI-powered development workflows.",
   "owner": {
     "name": "tuannvm"
   },
@@ -20,7 +20,7 @@
     },
     {
       "name": "google-workspace-skills",
-      "description": "Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more. Includes gws-*, persona-*, and recipe-* skill collections.",
+      "description": "Google Workspace CLI skills - 100+ skills for Gmail, Calendar, Drive, Docs, Sheets, Chat, Meet, Tasks and more.",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/googleworkspace/cli",
