@@ -1,0 +1,9 @@
+{
+  "name": "claude-loop",
+  "version": "0.1.0",
+  "description": "Recurring loop & reminder scheduling for Claude Code. Works on any model provider with three-tier fallback (CronCreate → Background Sleep Chain → Execute Once).",
+  "author": {
+    "name": "Tommy Nguyen",
+    "url": "https://github.com/tuannvm"
+  }
+}

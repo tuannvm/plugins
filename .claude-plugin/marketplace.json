@@ -20,8 +20,8 @@
     },
     {
       "name": "claude-loop",
-      "description": "Recurring loop & reminder skill for Claude Code. Works on any model provider with three-tier fallback (CronCreate → Background Sleep Chain → Execute Once).",
-      "source": "./skills/claude-loop"
+      "description": "Recurring loop & reminder plugin for Claude Code. Works on any model provider with three-tier fallback (CronCreate → Background Sleep Chain → Execute Once).",
+      "source": "./plugins/claude-loop"
     },
     {
       "name": "google-workspace",
