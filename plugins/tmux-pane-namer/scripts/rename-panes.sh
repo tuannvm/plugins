@@ -64,7 +64,7 @@ if [[ -f "$HASH_FILE" && -f "$LABEL_CACHE" ]]; then
 fi
 
 # -- ask Claude to name panes -------------------------------------------------
-response=$(echo "$pane_data" | claude -p \
+response=$(echo "$pane_data" | claude -p --max-turns 1 \
   --model haiku \
   "You are a tmux pane naming assistant. Given pane info, output EXACTLY one line per pane:
 PANE_ID|short_label

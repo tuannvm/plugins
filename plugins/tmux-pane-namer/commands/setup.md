@@ -25,7 +25,7 @@ Set up the tmux-pane-namer by performing these steps:
 3. **Set up cron job (idempotent):**
    - First remove any existing `rename-panes.sh` cron entry, then add the new one:
      ```bash
-     (crontab -l 2>/dev/null | grep -v 'rename-panes.sh'; echo '*/5 * * * * $HOME/.config/tmux/rename-panes.sh >/dev/null 2>&1') | crontab -
+     (crontab -l 2>/dev/null | grep -v 'rename-panes.sh'; echo "*/5 * * * * $HOME/.config/tmux/rename-panes.sh >/dev/null 2>&1") | crontab -
      ```
 
 4. **Test the script:**
