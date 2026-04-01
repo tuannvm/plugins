@@ -1,0 +1,9 @@
+{
+  "name": "tmux-pane-namer",
+  "version": "0.1.0",
+  "description": "LLM-powered tmux pane auto-renaming. Uses Claude CLI to intelligently name panes based on running processes and working directories. Includes state caching and cron scheduling.",
+  "author": {
+    "name": "Tommy Nguyen",
+    "url": "https://github.com/tuannvm"
+  }
+}
