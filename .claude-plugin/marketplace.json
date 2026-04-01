@@ -19,6 +19,10 @@
       "source": "./plugins/ralph-wiggum"
     },
     {
+      "name": "tmux-pane-namer",
+      "source": "./plugins/tmux-pane-namer"
+    },
+    {
       "name": "google-workspace",
       "description": "Comprehensive Google Workspace meta-skill covering all 47+ services (Calendar, Gmail, Drive, Docs, Sheets, Slides, Chat, Meet, Tasks, Forms, People, Workflows, and more)",
       "source": {
